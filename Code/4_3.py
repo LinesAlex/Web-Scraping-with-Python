@@ -33,17 +33,8 @@ def getLocation(ip) :
     except HTTPError:
         return None
     Json = json.loads(response)
-    print('ip : ' + Json.get("ip"))
-    print('country_code : ' + Json.get("country_code"))
-    print('conutry_name : ' + Json.get("country_name"))
-    print('region_code : ' + Json.get("region_code"))
-    print('region_name : ' + Json.get("region_name"))
-    print('city : ' + Json.get("city"))
-    print('zip_code : ' + Json.get("zip_code"))
-    print('time_zone : ' + Json.get("time_zone"))
-    print('latitude : ' + str(Json.get("latitude")))
-    print('longitude : ' + str(Json.get("longitude")))
-    print('metro_code : ' + str(Json.get("metro_code")))
+    for key,value in Json.items() :
+        print(key + " : " + str(value))
     print('———————')
     return Json.get("country_code")
 
