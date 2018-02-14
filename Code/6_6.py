@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb 14 19:08:57 2018
+
+@author: 11796
+"""
+
+from zipfile import ZipFile
+from urllib.request import urlopen
+from io import BytesIO
+
+wordFile = urlopen("http://pythonscraping.com/pages/AWordDocument.docx").read()
+wordFile = BytesIO(wordFile)
+document = ZipFile(wordFile)
+xml_content = document.read('word/document.xml')
+print(xml_content.decode("utf-8"))
