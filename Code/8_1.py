@@ -1,13 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Created on Thu Feb 15 11:10:26 2018
+Created on Thu Feb 15 12:30:22 2018
 
 @author: 11796
 """
+
 from urllib.request import urlopen
-from bs4 import BeautifulSoup
+#from bs4 import BeautifulSoup
 import re
 import string
+import operator
 
 def cleanInput(Input):
     Input = re.sub('\n+', ' ', Input)
@@ -25,15 +27,15 @@ def cleanInput(Input):
 
 def ngrams(Input, n):
     Input = cleanInput(Input)
-    output = []
+    output = {}
     for i in range(len(Input) - n + 1):
-        output.append(Input[i:i+n])
+        ngramTemp = " ".join(Input[i:i+n])
+        if ngramTemp not in output:
+            output[ngramTemp] = 0
+        output[ngramTemp] += 1
     return output
 
-if __name__ == "__main__":
-    html = urlopen("http://en.wikipedia.org/wiki/Python_(programming_language)")
-    bsObj = BeautifulSoup(html, 'html.parser')
-    content = bsObj.find("div", {"id":"mw-content-text"}).get_text()
-    ngrams = ngrams(content, 2)
-    print(ngrams)
-    print("2-grams count is : " + str(len(ngrams)))
+content = str(urlopen("http://pythonscraping.com/files/inaugurationSpeech.txt").read(), 'utf-8')
+ngrams = ngrams(content, 2)
+sortedNGrams = sorted(ngrams.items(), key=operator.itemgetter(1), reverse = True)
+print(sortedNGrams)
