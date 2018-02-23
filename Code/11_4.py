@@ -37,5 +37,17 @@ captchaResponse = f.read().replace(' ', '').replace('\n', '')
 print('Captcha solution attempt: ' + captchaResponse)
 
 if len(captchaResponse) == 5:
-    params = {'captcha_token'}
+    params = {'captcha_token'：captchaToken
+              , 'captcha_sid': captchaSid
+              , 'form_id': 'comment_node_page_form'
+              , 'form_build_id': formBuildId
+              , 'captcha_response': captchaResponse
+              , 'name': 'Ryan Mitchell'
+              , 'comment_body[und][0][value]': '...and I am definitely not a bot'}
+    r = requests.post('http://www.pythonscraping.com/commit/reply/10', data=params)
+    responseObj = BeautifulSoup(r.text)
+    if responseObj.find('div', {'class': 'messages'}) is not None:
+        print(responseObj.find('div', {'class'：'messages'}).get_text())
+else:
+    print("There was a problem reading the CAPTCHA correctly!")
 
